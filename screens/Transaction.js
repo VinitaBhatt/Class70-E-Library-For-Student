@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
 import * as Permissions from "expo-permissions";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
@@ -48,15 +48,31 @@ export default class TransactionScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
-          {hasCameraPermissions ? scannedData : "Request for Camera Permission"}
-        </Text>
-        <TouchableOpacity
-          style={[styles.button, { marginTop: 25 }]}
-          onPress={() => this.getCameraPermissions("scanner")}
-        >
-          <Text style={styles.buttonText}>Scan QR Code</Text>
-        </TouchableOpacity>
+        <View style={styles.upperContainer}>
+
+        </View>
+       <View style={styles.lowerContainer}>
+          <View style={styles.textInputContainer}>
+            <TextInput style={styles.textInput}
+            placeholder={"Book Id"}
+            placeholderTextColor={"white"}
+            />
+              <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}> Scan</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.textInputContainer}>
+            <TextInput style={styles.textInput}
+            placeholder={"Student Id"}
+            placeholderTextColor={"white"}
+            />
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}> Scan</Text>
+            </TouchableOpacity>
+          </View>
+
+       </View>
       </View>
     );
   }
@@ -65,8 +81,6 @@ export default class TransactionScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#5653D4"
   },
   text: {
@@ -74,15 +88,46 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   button: {
-    width: "43%",
-    height: 55,
+    width: 100,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F48D20",
-    borderRadius: 15
+    backgroundColor: "#9DFD24",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius:10
   },
   buttonText: {
     fontSize: 24,
-    color: "#FFFFFF"
+    color: "#DA0101",
+    fontFamily:'Rajdhani_600SemiBold'
+  },
+  lowerContainer:{
+    flex:0.5,
+    alignItems:"center"
+  },
+  textInputContainer:{
+    borderWidth:2,
+    borderRadius:10,
+    flexDirection:"row",
+    backgroundColor:"#9DFD24",
+    borderColor:"white"
+  },
+  textInput:{
+    width:"57%",
+    height:50,
+    padding:10,
+    borderColor:"white",
+    borderRadius:10,
+    borderWidth:3,
+    fontSize:18,
+    backgroundColor:"#5653D4",
+    fontFamily:'Rajdhani_600SemiBold',
+    color:"white"
+  },
+  upperContainer:{
+    flex:0.5,
+    justifyContent:"center",
+    alignItems:"center"
   }
-});
+
+})
