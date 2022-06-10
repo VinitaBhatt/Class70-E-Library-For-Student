@@ -1,63 +1,58 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, StyleSheet,TouchableOpacity, TextInput} from "react-native";
 import * as Permissions from "expo-permissions";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
+
+
 export default class TransactionScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      domState: "normal",
-      hasCameraPermissions: null,
+  constructor(){
+    super();
+    this.state={
+      domState : "normal",
+      hasCameraPermissions : null,
       scanned: false,
-      scannedData: ""
-    };
+      scannedData:""
+    }
   }
 
-  getCameraPermissions = async domState => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-
+  getCameraPermission=async(domState)=>{
+    const {status} = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
-      /*status === "granted" is true when user has granted permission
-          status === "granted" is false when user has not granted the permission
-        */
-      hasCameraPermissions: status === "granted",
-      domState: domState,
-      scanned: false
-    });
-  };
+      hasCameraPermissions : status === "granted",
+      domState:domState,
+      scanned:false
+    })
+  }
 
-  handleBarCodeScanned = async ({ type, data }) => {
+  handleBarcodeScanned=async({type,data})=>{
     this.setState({
-      scannedData: data,
-      domState: "normal",
-      scanned: true
-    });
-  };
-
+      scannedData:data,
+      domState:"normal",
+      scanned:"true"
+    })
+  }
   render() {
-    const { domState, hasCameraPermissions, scannedData, scanned } = this.state;
-    if (domState === "scanner") {
-      return (
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject}
-        />
-      );
-    }
+    const { domState,hasCameraPermissions,scanned,scannedData} = this.state;
 
+    if(domState === "scanner"){
+      return(
+        <BarCodeScanner onBarCodeScanned={scanned ? undefined : this.handleBarcodeScanned} style={StyleSheet.absoluteFillObject}/>
+      )
+    }
     return (
       <View style={styles.container}>
         <View style={styles.upperContainer}>
 
         </View>
        <View style={styles.lowerContainer}>
-          <View style={styles.textInputContainer}>
+       <View style={styles.textInputContainer}>
             <TextInput style={styles.textInput}
             placeholder={"Book Id"}
             placeholderTextColor={"white"}
+            value={this.state.bookId}
             />
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={()=>this.getCameraPermissions('bookId')}>
               <Text style={styles.buttonText}> Scan</Text>
             </TouchableOpacity>
           </View>
@@ -66,8 +61,9 @@ export default class TransactionScreen extends Component {
             <TextInput style={styles.textInput}
             placeholder={"Student Id"}
             placeholderTextColor={"white"}
+            value={this.state.studentId}
             />
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button}  onPress={()=>this.getCameraPermissions('studentId')}>
               <Text style={styles.buttonText}> Scan</Text>
             </TouchableOpacity>
           </View>
@@ -129,5 +125,4 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center"
   }
-
-})
+});
